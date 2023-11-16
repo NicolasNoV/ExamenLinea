@@ -43,7 +43,7 @@ public class AdministradorController {
         administradorServicio.crearEstudiante(estudianteDTO);
         return ResponseEntity.ok().body( new MensajeDTO<>(false, "Ha creado un estudiante correctamente"));
     }
-    @GetMapping("/buscar-profesor/{idEstudiante}")
+    @GetMapping("/buscar-Estudiante/{idEstudiante}")
     public ResponseEntity<MensajeDTO<EstudianteDTO>> buscarEstudianteId(@PathVariable int idEstudiante) throws Exception{
         return ResponseEntity.ok().body( new MensajeDTO<>(false, administradorServicio.buscarEstudianteId(idEstudiante)));
     }
