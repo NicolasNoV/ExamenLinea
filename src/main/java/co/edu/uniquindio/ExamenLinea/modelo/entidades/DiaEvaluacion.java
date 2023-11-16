@@ -1,5 +1,6 @@
 package co.edu.uniquindio.ExamenLinea.modelo.entidades;
 
+import co.edu.uniquindio.ExamenLinea.modelo.enums.EstadoEntidad;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -31,4 +32,7 @@ public class DiaEvaluacion implements Serializable {
     @Column(nullable = false)
     private LocalDateTime hora;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private EstadoEntidad estado;
 }

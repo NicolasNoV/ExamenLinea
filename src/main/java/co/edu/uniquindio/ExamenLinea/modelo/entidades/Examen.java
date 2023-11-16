@@ -1,5 +1,6 @@
 package co.edu.uniquindio.ExamenLinea.modelo.entidades;
 
+import co.edu.uniquindio.ExamenLinea.modelo.enums.EstadoEntidad;
 import co.edu.uniquindio.ExamenLinea.modelo.enums.EstadoExamen;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -63,5 +64,9 @@ public class Examen implements Serializable {
     @ManyToOne
     @JoinColumn(name = "profesor_id")
     private Profesor profesor;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private EstadoEntidad estado;
 
 }

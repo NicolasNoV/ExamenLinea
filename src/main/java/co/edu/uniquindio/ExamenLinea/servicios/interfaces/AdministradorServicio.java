@@ -22,9 +22,9 @@ public interface AdministradorServicio {
 
     boolean crearGrupo(GrupoDTO grupoDTO) throws Exception;
 
-    boolean buscarGrupoId(int idGrupo) throws Exception;
+    GrupoDTO buscarGrupoId(int idGrupo) throws Exception;
 
-    GrupoDTO modificarGrupoId(GrupoDetalleDTO grupoDetalleDTO) throws Exception;
+    boolean modificarGrupoId(GrupoDetalleDTO grupoDetalleDTO) throws Exception;
 
     boolean eliminarGrupo(int idGrupo) throws Exception;
 

@@ -1,5 +1,6 @@
 package co.edu.uniquindio.ExamenLinea.modelo.entidades;
 
+import co.edu.uniquindio.ExamenLinea.modelo.enums.EstadoEntidad;
 import co.edu.uniquindio.ExamenLinea.modelo.enums.TipoRespuesta;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -23,5 +24,9 @@ public class Respuesta implements Serializable {
     @NotNull
     @Enumerated(EnumType.STRING)
     private TipoRespuesta tipoRespuesta;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private EstadoEntidad estado;
 
 }

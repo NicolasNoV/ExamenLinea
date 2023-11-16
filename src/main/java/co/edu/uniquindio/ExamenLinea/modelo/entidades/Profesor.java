@@ -1,5 +1,6 @@
 package co.edu.uniquindio.ExamenLinea.modelo.entidades;
 
+import co.edu.uniquindio.ExamenLinea.modelo.enums.EstadoEntidad;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,5 +27,9 @@ public class Profesor implements Serializable {
     @NotBlank
     @Column(nullable = false)
     private String apellido;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private EstadoEntidad estado;
 
 }

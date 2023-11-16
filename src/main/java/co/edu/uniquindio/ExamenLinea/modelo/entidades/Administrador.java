@@ -1,17 +1,25 @@
 package co.edu.uniquindio.ExamenLinea.modelo.entidades;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import co.edu.uniquindio.ExamenLinea.modelo.enums.EstadoEntidad;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
-
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Administrador implements Serializable {
 
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private int codigo;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private EstadoEntidad estado;
 
 }

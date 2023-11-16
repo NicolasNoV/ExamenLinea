@@ -1,5 +1,6 @@
 package co.edu.uniquindio.ExamenLinea.modelo.entidades;
 
+import co.edu.uniquindio.ExamenLinea.modelo.enums.EstadoEntidad;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -27,7 +28,6 @@ public class Estudiante implements Serializable {
     @Column(nullable = false)
     private String apellido;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "grupo_id")
     private Grupo grupo;
@@ -36,4 +36,7 @@ public class Estudiante implements Serializable {
     @JoinColumn(name = "examen_id")
     private Examen examen;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private EstadoEntidad estado;
 }

@@ -1,5 +1,6 @@
 package co.edu.uniquindio.ExamenLinea.modelo.entidades;
 
+import co.edu.uniquindio.ExamenLinea.modelo.enums.EstadoEntidad;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -32,4 +33,7 @@ public class Horario implements Serializable {
     @Column(nullable = false)
     private String lugar;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private EstadoEntidad estado;
 }

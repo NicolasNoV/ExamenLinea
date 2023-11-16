@@ -1,5 +1,6 @@
 package co.edu.uniquindio.ExamenLinea.modelo.entidades;
 
+import co.edu.uniquindio.ExamenLinea.modelo.enums.EstadoEntidad;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -7,6 +8,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -37,9 +39,12 @@ public class Pregunta implements Serializable {
     @JoinColumn(name = "tipoPregunta_id")
     private TipoPregunta tipoPregunta;
 
-    @ManyToOne
+    @ManyToMany
     @JoinColumn(name = "examen_id")
-    private Examen examen;
+    private List<Examen> examen;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private EstadoEntidad estado;
 
 }
