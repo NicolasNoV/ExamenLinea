@@ -10,11 +10,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@MappedSuperclass
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Pregunta implements Serializable {
 
     @Id
@@ -26,18 +25,17 @@ public class Pregunta implements Serializable {
     @Column(nullable = false)
     private double porcentaje;
 
+    @NotBlank
+    @Column(nullable = false)
+    private String tipoPregunta;
+
     @NotNull
     @Column(nullable = false)
     private LocalDateTime tiempo;
 
     @NotBlank
     @Column(nullable = false)
-    private String texto;
-
-    @NotNull
-    @OneToOne
-    @JoinColumn(name = "tipoPregunta_id")
-    private TipoPregunta tipoPregunta;
+    private String pregunta;
 
     @ManyToMany
     @JoinColumn(name = "examen_id")

@@ -7,7 +7,6 @@ public record EstadisticaExamenDTO(
         LocalDateTime fecha,
         double puntaje,
         LocalDateTime tiempoTranscurrido,
-        String direccionIP,
         int idExamen,
         int idEstudiante
 

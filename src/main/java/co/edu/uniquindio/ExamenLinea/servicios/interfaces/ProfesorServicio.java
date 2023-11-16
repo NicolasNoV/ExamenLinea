@@ -26,5 +26,5 @@ public interface ProfesorServicio {
 
     boolean crearBancoPreguntas(int idTema) throws Exception;
 
-
+    boolean enviarExamenEstudiantes(EnviarExamenEstudiantesDTO enviarExamenEstudiantesDTO) throws Exception;
 }

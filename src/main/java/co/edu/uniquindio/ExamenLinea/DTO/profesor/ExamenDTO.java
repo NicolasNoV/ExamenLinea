@@ -12,7 +12,7 @@ public record ExamenDTO(
         EstadoExamen estadoExamen,
         int cantidadPreguntasBanco,
         int cantidadPreguntasEstudiante,
-        LocalDateTime tiempo,
+        LocalDateTime tiempoLimite,
         int idDiaEvaluacion,
         int idConfiguracion
 

@@ -46,9 +46,12 @@ public class Examen implements Serializable {
     @Column(nullable = false)
     private int cantidadPreguntasEstudiante;
 
+
     @NotNull
     @Column(nullable = false)
-    private LocalDateTime tiempo;
+    private LocalDateTime tiempoLimite;
+
+    private LocalDateTime tiempoTranscurrido;
 
     @NotNull
     @OneToOne

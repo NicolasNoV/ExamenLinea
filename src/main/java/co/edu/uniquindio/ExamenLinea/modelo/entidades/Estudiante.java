@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
@@ -32,9 +33,9 @@ public class Estudiante implements Serializable {
     @JoinColumn(name = "grupo_id")
     private Grupo grupo;
 
-    @ManyToOne
+    @ManyToMany
     @JoinColumn(name = "examen_id")
-    private Examen examen;
+    private List<Examen> examenes;
 
     @NotNull
     @Enumerated(EnumType.STRING)

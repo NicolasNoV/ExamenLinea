@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +26,11 @@ public class ProfesorImpl implements ProfesorServicio {
     private final ConfiguracionRepo configuracionRepo;
     private final PreguntaRepo preguntaRepo;
     private final EstadisticaExamenRepo estadisticaExamenRepo;
+    private final EstadisticaPreguntaRepo estadisticaPreguntaRepo;
+    private final CalificacionRepo calificacionRepo;
+    private final TemaRepo temaRepo;
+    private final BancoPreguntaRepo bancoPreguntaRepo;
+    private final EstudianteRepo estudianteRepo;
 
     @Override
     public boolean crearExamen(ExamenDTO examenDTO) throws Exception {
@@ -50,7 +56,7 @@ public class ProfesorImpl implements ProfesorServicio {
             examen.setEstadoExamen(EstadoExamen.PENDIENTE);
             examen.setCantidadPreguntasBanco(examenDTO.cantidadPreguntasBanco());
             examen.setCantidadPreguntasEstudiante(examenDTO.cantidadPreguntasEstudiante());
-            examen.setTiempo(examenDTO.tiempo());
+            examen.setTiempoLimite(examenDTO.tiempoLimite());
             examen.setDiaEvaluacion(opcional.get());
             examen.setConfiguracion(opcional2.get());
             examen.setEstado(EstadoEntidad.ACTIVO);
@@ -58,6 +64,8 @@ public class ProfesorImpl implements ProfesorServicio {
             examenRepo.save(examen);
 
             respuesta = true;
+        }else{
+            throw new Exception("No se han todos llenados los campos");
         }
         return respuesta;
     }
@@ -98,8 +106,12 @@ public class ProfesorImpl implements ProfesorServicio {
                 pregunta.setExamen(listaExamenes);
 
                 respuesta = true;
+            }else{
+                throw new Exception("Ya se encuentra el numero maxmimo de preguntas");
             }
 
+        }else{
+            throw new Exception("El examen no tiene un configuracion agregada");
         }
         return respuesta;
     }
@@ -111,6 +123,11 @@ public class ProfesorImpl implements ProfesorServicio {
         if(configuracionDTO != null){
             Configuracion configuracion = new Configuracion();
 
+            Optional<Examen> opcional = examenRepo.findById(configuracionDTO.idExamen());
+            if( opcional.isEmpty() ){
+                throw new Exception("No existe un examen con el código "+configuracionDTO.idExamen());
+            }
+
             configuracion.setPorcentaje(configuracionDTO.porcentaje());
             configuracion.setUmbral(configuracionDTO.umbral());
             configuracion.setHora(configuracionDTO.hora());
@@ -121,7 +138,13 @@ public class ProfesorImpl implements ProfesorServicio {
 
             configuracionRepo.save(configuracion);
 
+            Examen examen = opcional.get();
+            examen.setConfiguracion(configuracion);
+            examenRepo.save(examen);
+
             respuesta = true;
+        }else{
+            throw new Exception("No se han todos llenados los campos");
         }
         return respuesta;
     }
@@ -130,34 +153,126 @@ public class ProfesorImpl implements ProfesorServicio {
     public EstadisticaExamenDTO estadisticaExamen(int idEstadisticaExamen) throws Exception {
         boolean respuesta = false;
 
-        Optional<EstadisticaExamen> opcional = estadisticaExamenRepo.findById(idEstadisticaExamen));
+        Optional<EstadisticaExamen> opcional = estadisticaExamenRepo.findById(idEstadisticaExamen);
 
+        if( opcional.isEmpty() ){
+            throw new Exception("No existe una estadistica de examen con el código "+idEstadisticaExamen);
+        }
 
-        return null;
+        return new EstadisticaExamenDTO(opcional.get().getFecha(), opcional.get().getPuntaje(),
+                opcional.get().getTiempoTranscurrido(), opcional.get().getExamen().getId(),
+                opcional.get().getEstudiante().getId());
     }
 
     @Override
     public EstadisticaPreguntaDTO estadisticaPregunta(int idEstadisticaPregunta) throws Exception {
-        return null;
+        boolean respuesta = false;
+
+        Optional<EstadisticaPregunta> opcional = estadisticaPreguntaRepo.findById(idEstadisticaPregunta);
+
+        if( opcional.isEmpty() ){
+            throw new Exception("No existe una estadistica de pregunta con el código "+idEstadisticaPregunta);
+        }
+
+        return new EstadisticaPreguntaDTO(opcional.get().getPorcentajeCorrecto(), opcional.get().getCorrectas(),
+                opcional.get().getIncorrectas(), opcional.get().getContestadas(), opcional.get().getPregunta().getId());
     }
 
     @Override
     public List<CalificacionDTO> verNotasEstudiante(int idEstudiante) throws Exception {
-        return null;
+        List<CalificacionDTO> notas = new ArrayList<>();
+
+        List<Calificacion> listaCalificaciones = calificacionRepo.findAll();
+
+        for(Calificacion calificacion : listaCalificaciones){
+            if(calificacion.getEstudiante().getId() == idEstudiante){
+                notas.add(new CalificacionDTO(
+                        calificacion.getExamen().getNombre(),
+                        calificacion.getExamen().getDiaEvaluacion().getFecha(),
+                        calificacion.getNota()
+                ));
+            }
+        }
+        return notas;
     }
 
     @Override
     public boolean crearPregunta(PreguntaDTO preguntaDTO) throws Exception {
+        boolean respuesta = false;
+
+        if (preguntaDTO != null){
+            Pregunta pregunta = new Pregunta();
+
+            pregunta.setPorcentaje(preguntaDTO.porcentaje());
+            pregunta.setTiempo(preguntaDTO.tiempo());
+            pregunta.setPregunta(preguntaDTO.texto());
+            pregunta.setTipoPregunta(preguntaDTO.tipoPregunta());
+
+            preguntaRepo.save(pregunta);
+
+            respuesta = true;
+        }
+
         return false;
     }
 
     @Override
     public boolean crearTema(String nombreTema) throws Exception {
-        return false;
+        boolean respuesta = false;
+
+        if(!nombreTema.isEmpty()){
+            Tema tema = new Tema();
+
+            tema.setNombre(nombreTema);
+            tema.setEstado(EstadoEntidad.ACTIVO);
+
+            temaRepo.save(tema);
+            respuesta = true;
+        }
+        return respuesta;
     }
 
     @Override
     public boolean crearBancoPreguntas(int idTema) throws Exception {
-        return false;
+        boolean respuesta = false;
+
+        if(idTema != 0){
+            Optional<Tema> opcional = temaRepo.findById(idTema);
+            BancoPregunta bancoPregunta = new BancoPregunta();
+
+            bancoPregunta.setTema(opcional.get());
+            bancoPregunta.setEstado(EstadoEntidad.ACTIVO);
+
+            bancoPreguntaRepo.save(bancoPregunta);
+            respuesta = true;
+        }
+        return respuesta;
+    }
+
+    @Override
+    public boolean enviarExamenEstudiantes(EnviarExamenEstudiantesDTO enviarExamenEstudiantesDTO) throws Exception {
+        boolean respuesta = false;
+
+        Optional<Examen> opcional = examenRepo.findById(enviarExamenEstudiantesDTO.idExamen());
+        if(opcional.isEmpty()){
+            throw new Exception("No existe un examen con el código "+enviarExamenEstudiantesDTO.idExamen());
+        }
+
+        for(int idEstudiante : enviarExamenEstudiantesDTO.idEstudiantes()){
+            Optional<Estudiante> opcional2 = estudianteRepo.findById(idEstudiante);
+            if(opcional2.isPresent()){
+                Estudiante estudiante = opcional2.get();
+
+                List<Examen> examenList = opcional2.get().getExamenes();
+                examenList.add(opcional.get());
+                estudiante.setExamenes(examenList);
+
+                estudianteRepo.save(estudiante);
+                respuesta = true;
+            }
+        }
+
+
+        return respuesta;
     }
 }

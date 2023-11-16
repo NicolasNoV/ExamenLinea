@@ -1,7 +1,6 @@
 package co.edu.uniquindio.ExamenLinea.servicios.interfaces;
 
 import co.edu.uniquindio.ExamenLinea.DTO.CalificacionDTO;
-import co.edu.uniquindio.ExamenLinea.DTO.PreguntaDTO;
 import co.edu.uniquindio.ExamenLinea.DTO.estudiante.*;
 
 import java.util.List;

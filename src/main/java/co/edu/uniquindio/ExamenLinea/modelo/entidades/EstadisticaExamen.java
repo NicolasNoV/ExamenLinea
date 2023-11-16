@@ -33,10 +33,6 @@ public class EstadisticaExamen implements Serializable {
     @Column(nullable = false)
     private LocalDateTime tiempoTranscurrido;
 
-    @NotBlank
-    @Column(nullable = false)
-    private String direccionIP;
-
     @NotNull
     @OneToOne
     @JoinColumn(name = "examen_id")
