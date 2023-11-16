@@ -4,9 +4,10 @@ import java.time.LocalDateTime;
 
 public record PreguntaDTO(
 
+        int idPregunta,
         double porcentaje,
         LocalDateTime tiempo,
-        String texto,
+        String pregunta,
         String tipoPregunta
 
 ) {

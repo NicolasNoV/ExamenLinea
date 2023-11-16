@@ -143,15 +143,12 @@ public class ProfesorImpl implements ProfesorServicio {
             examenRepo.save(examen);
 
             respuesta = true;
-        }else{
-            throw new Exception("No se han todos llenados los campos");
         }
         return respuesta;
     }
 
     @Override
     public EstadisticaExamenDTO estadisticaExamen(int idEstadisticaExamen) throws Exception {
-        boolean respuesta = false;
 
         Optional<EstadisticaExamen> opcional = estadisticaExamenRepo.findById(idEstadisticaExamen);
 
@@ -166,7 +163,6 @@ public class ProfesorImpl implements ProfesorServicio {
 
     @Override
     public EstadisticaPreguntaDTO estadisticaPregunta(int idEstadisticaPregunta) throws Exception {
-        boolean respuesta = false;
 
         Optional<EstadisticaPregunta> opcional = estadisticaPreguntaRepo.findById(idEstadisticaPregunta);
 
@@ -205,7 +201,7 @@ public class ProfesorImpl implements ProfesorServicio {
 
             pregunta.setPorcentaje(preguntaDTO.porcentaje());
             pregunta.setTiempo(preguntaDTO.tiempo());
-            pregunta.setPregunta(preguntaDTO.texto());
+            pregunta.setPregunta(preguntaDTO.pregunta());
             pregunta.setTipoPregunta(preguntaDTO.tipoPregunta());
 
             preguntaRepo.save(pregunta);
@@ -213,7 +209,7 @@ public class ProfesorImpl implements ProfesorServicio {
             respuesta = true;
         }
 
-        return false;
+        return respuesta;
     }
 
     @Override

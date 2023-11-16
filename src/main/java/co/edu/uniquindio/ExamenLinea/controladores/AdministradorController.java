@@ -43,51 +43,9 @@ public class AdministradorController {
         administradorServicio.crearEstudiante(estudianteDTO);
         return ResponseEntity.ok().body( new MensajeDTO<>(false, "Ha creado un estudiante correctamente"));
     }
-    @GetMapping("/buscar-profesor/{idProfesor}")
-    EstudianteDTO buscarEstudianteId(int idEstudiante) throws Exception{
-
+    @GetMapping("/buscar-profesor/{idEstudiante}")
+    public ResponseEntity<MensajeDTO<EstudianteDTO>> buscarEstudianteId(@PathVariable int idEstudiante) throws Exception{
+        return ResponseEntity.ok().body( new MensajeDTO<>(false, administradorServicio.buscarEstudianteId(idEstudiante)));
     }
-
-    boolean modificarEstudianteId(EstudianteDetalleDTO estudianteDetalleDTO) throws Exception{
-
-    }
-
-    boolean eliminarEstudiante(int idEstudiante) throws Exception{
-
-    }
-
-    boolean crearGrupo(GrupoDTO grupoDTO) throws Exception{
-
-    }
-
-    boolean buscarGrupoId(int idGrupo) throws Exception{
-
-    }
-
-    GrupoDTO modificarGrupoId(GrupoDetalleDTO grupoDetalleDTO) throws Exception{
-
-    }
-
-    boolean eliminarGrupo(int idGrupo) throws Exception{
-
-    }
-
-    boolean aniadirEstudianteGrupo(EstudianteGrupoDTO estudianteGrupoDTO) throws Exception{
-
-    }
-
-    boolean eliminarEstudianteGrupo(EstudianteGrupoDTO estudianteGrupoDTO) throws Exception{
-
-    }
-
-    boolean crearPlanEstudio(PlanEstudioDTO planEstudioDTO) throws Exception{
-
-    }
-
-    boolean crearHorario(HorarioDTO horarioDTO) throws Exception{
-
-    }
-
-
 
 }

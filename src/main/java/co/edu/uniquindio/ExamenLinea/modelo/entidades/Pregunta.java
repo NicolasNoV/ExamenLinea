@@ -10,10 +10,11 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Entity
 @Getter
 @Setter
-@MappedSuperclass
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@NoArgsConstructor
+@AllArgsConstructor
 public class Pregunta implements Serializable {
 
     @Id
