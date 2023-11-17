@@ -22,7 +22,6 @@ public class AdministradorImpl implements AdministradorServicio {
     private final PlanEstudioRepo planEstudioRepo;
     private final HorarioRepo horarioRepo;
 
-
     @Override
     public boolean crearProfesor(ProfesorDTO profesorDTO) throws Exception {
         boolean respuesta = false;
@@ -105,15 +104,8 @@ public class AdministradorImpl implements AdministradorServicio {
         if (estudianteDTO != null){
             Estudiante estudiante = new Estudiante();
 
-            Optional<Grupo> opcional = grupoRepo.findById(estudianteDTO.idGrupo());
-
-            if (opcional.isEmpty()){
-                throw new Exception("No existe un grupo con el código "+estudianteDTO.idGrupo());
-            }
-
             estudiante.setNombre(estudianteDTO.nombre());
             estudiante.setApellido(estudianteDTO.apellido());
-            estudiante.setGrupo(opcional.get());
             estudiante.setEstado(EstadoEntidad.ACTIVO);
 
             estudianteRepo.save(estudiante);
@@ -143,21 +135,17 @@ public class AdministradorImpl implements AdministradorServicio {
 
         if (estudianteDetalleDTO != null){
             Optional<Estudiante> opcional = estudianteRepo.findById(estudianteDetalleDTO.idEstudiante());
-            Optional<Grupo> opcional2 = grupoRepo.findById(estudianteDetalleDTO.idGrupo());
 
-            if (opcional2.isEmpty()){
-                throw new Exception("No existe un grupo con el código "+estudianteDetalleDTO.idGrupo());
-            }else{
-                if (opcional.isEmpty()){
-                    throw new Exception("No existe un estudiante con el código "+estudianteDetalleDTO.idEstudiante());
-                }
+
+            if (opcional.isEmpty()){
+                throw new Exception("No existe un estudiante con el código "+estudianteDetalleDTO.idEstudiante());
             }
+
 
             Estudiante estudiante = opcional.get();
 
             estudiante.setNombre(estudianteDetalleDTO.nombre());
             estudiante.setApellido(estudianteDetalleDTO.apellido());
-            estudiante.setGrupo(opcional2.get());
 
             estudianteRepo.save(estudiante);
 

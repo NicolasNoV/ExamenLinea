@@ -8,6 +8,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -27,7 +28,7 @@ public class Horario implements Serializable {
 
     @NotNull
     @Column(nullable = false)
-    private LocalDateTime hora;
+    private LocalTime hora;
 
     @NotBlank
     @Column(nullable = false)

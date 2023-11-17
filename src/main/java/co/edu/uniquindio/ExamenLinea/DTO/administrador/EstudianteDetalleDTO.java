@@ -4,8 +4,7 @@ public record EstudianteDetalleDTO(
 
         int idEstudiante,
         String nombre,
-        String apellido,
-        int idGrupo
+        String apellido
 
 ) {
 }
