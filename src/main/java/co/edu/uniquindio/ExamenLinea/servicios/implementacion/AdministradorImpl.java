@@ -11,9 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@Service
+
 @RequiredArgsConstructor
 @Transactional
+@Service
 public class AdministradorImpl implements AdministradorServicio {
 
     private final ProfesorRepo profesorRepo;
@@ -125,8 +126,7 @@ public class AdministradorImpl implements AdministradorServicio {
             throw new Exception("No existe un estudiante con el código "+idEstudiante);
         }
 
-        return new EstudianteDTO(opcional.get().getNombre(), opcional.get().getApellido(),
-                opcional.get().getId());
+        return new EstudianteDTO(opcional.get().getNombre(), opcional.get().getApellido());
     }
 
     @Override
@@ -284,7 +284,7 @@ public class AdministradorImpl implements AdministradorServicio {
         }else{
             if( opcional2.isEmpty() ){
                 throw new Exception("No existe un estudiante con el código "+estudianteGrupoDTO.idEstudiante());
-            }
+            }else respuesta = true;
         }
 
         Estudiante estudiante = opcional2.get();
@@ -301,7 +301,7 @@ public class AdministradorImpl implements AdministradorServicio {
 
         if( opcional.isEmpty() ){
                 throw new Exception("No existe un estudiante con el código "+estudianteGrupoDTO.idEstudiante());
-        }
+        }else respuesta = true;
 
         Estudiante estudiante = opcional.get();
         estudiante.setGrupo(null);
@@ -316,8 +316,8 @@ public class AdministradorImpl implements AdministradorServicio {
         if (planEstudioDTO != null){
             PlanEstudio planEstudio = new PlanEstudio();
 
-            planEstudio.setUnidades(planEstudio.getUnidades());
-            planEstudio.setContenido(planEstudio.getContenido());
+            planEstudio.setUnidades(planEstudioDTO.unidades());
+            planEstudio.setContenido(planEstudioDTO.contenido());
             planEstudio.setEstado(EstadoEntidad.ACTIVO);
 
             planEstudioRepo.save(planEstudio);
@@ -338,6 +338,7 @@ public class AdministradorImpl implements AdministradorServicio {
 
             horario.setDia(horarioDTO.dia());
             horario.setHora(horarioDTO.hora());
+            horario.setLugar(horarioDTO.lugar());
             horario.setEstado(EstadoEntidad.ACTIVO);
 
             horarioRepo.save(horario);

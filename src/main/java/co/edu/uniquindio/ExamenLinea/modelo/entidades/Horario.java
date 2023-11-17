@@ -34,7 +34,6 @@ public class Horario implements Serializable {
     @Column(nullable = false)
     private String lugar;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private EstadoEntidad estado;
 }
