@@ -3,7 +3,9 @@ package co.edu.uniquindio.ExamenLinea.DTO.administrador;
 public record EstudianteDTO(
 
         String nombre,
-        String apellido
+        String apellido,
+        int grupo_id
+
 
 ) {
 }

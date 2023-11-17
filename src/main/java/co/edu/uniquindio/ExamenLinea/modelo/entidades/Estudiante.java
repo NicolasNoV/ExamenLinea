@@ -40,4 +40,5 @@ public class Estudiante implements Serializable {
     @NotNull
     @Enumerated(EnumType.STRING)
     private EstadoEntidad estado;
+
 }

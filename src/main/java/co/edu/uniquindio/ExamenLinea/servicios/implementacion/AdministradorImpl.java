@@ -102,19 +102,26 @@ public class AdministradorImpl implements AdministradorServicio {
     public boolean crearEstudiante(EstudianteDTO estudianteDTO) throws Exception {
         boolean respuesta = false;
 
-        if (estudianteDTO != null){
+        if (estudianteDTO != null) {
             Estudiante estudiante = new Estudiante();
 
             estudiante.setNombre(estudianteDTO.nombre());
             estudiante.setApellido(estudianteDTO.apellido());
             estudiante.setEstado(EstadoEntidad.ACTIVO);
 
-            estudianteRepo.save(estudiante);
+            Optional<Grupo> grupoOpcional = grupoRepo.findById(estudianteDTO.grupo_id());
+            if (grupoOpcional.isPresent()) {
+                estudiante.setGrupo(grupoOpcional.get());
+            } else {
+                throw new Exception("No existe un grupo con el ID " + estudianteDTO.grupo_id());
+            }
 
+            estudianteRepo.save(estudiante);
             respuesta = true;
-        }else{
-            throw new Exception("No se han todos llenados los campos");
+        } else {
+            throw new Exception("No se han llenado todos los campos");
         }
+
         return respuesta;
     }
 
@@ -126,7 +133,7 @@ public class AdministradorImpl implements AdministradorServicio {
             throw new Exception("No existe un estudiante con el código "+idEstudiante);
         }
 
-        return new EstudianteDTO(opcional.get().getNombre(), opcional.get().getApellido());
+        return new EstudianteDTO(opcional.get().getNombre(), opcional.get().getApellido(), opcional.get().getGrupo().getId());
     }
 
     @Override
