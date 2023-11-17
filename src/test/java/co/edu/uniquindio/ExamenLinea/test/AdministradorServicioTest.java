@@ -188,5 +188,7 @@ public class AdministradorServicioTest {
         LocalTime horaAux = LocalTime.parse(hora, formatter);
 
         boolean respuesta = administradorServicio.crearHorario(new HorarioDTO(fecha,horaAux,lugar));
+
+        Assertions.assertTrue(respuesta);
     }
 }
