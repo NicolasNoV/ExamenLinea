@@ -2,6 +2,7 @@ package co.edu.uniquindio.ExamenLinea.servicios.implementacion;
 
 import co.edu.uniquindio.ExamenLinea.DTO.CalificacionDTO;
 import co.edu.uniquindio.ExamenLinea.DTO.PreguntaDTO;
+import co.edu.uniquindio.ExamenLinea.DTO.estudiante.ContestarPreguntaDTO;
 import co.edu.uniquindio.ExamenLinea.DTO.estudiante.NotificacionDTO;
 import co.edu.uniquindio.ExamenLinea.DTO.estudiante.VerExamenDTO;
 import co.edu.uniquindio.ExamenLinea.modelo.entidades.*;
@@ -29,6 +30,7 @@ public class EstudianteImpl implements EstudianteServicio {
     private final CalificacionRepo calificacionRepo;
     private final RespuestaRepo respuestaRepo;
     private final PreguntaRepo preguntaRepo;
+    private final ExamenRepo examenRepo;
 
     @Override
     public List<VerExamenDTO> verListaExamenesPendiente(int idEstudiante) throws Exception {
@@ -57,7 +59,6 @@ public class EstudianteImpl implements EstudianteServicio {
 
         if( estudiante.isEmpty() ){
             throw new Exception("No existe un estudiante con el código "+idEstudiante);
-
         }
         for(Examen examen : estudiante.get().getExamenes()){
             if(examen.getEstadoExamen().equals(EstadoExamen.COMPLETADO)){
@@ -117,8 +118,10 @@ public class EstudianteImpl implements EstudianteServicio {
     }
 
     @Override
-    public void contestarPregunta(List<PreguntaDTO> preguntas) throws Exception {
-        for (PreguntaDTO pregunta : preguntas) {
+    public boolean contestarPregunta(ContestarPreguntaDTO contestarPreguntaDTO) throws Exception {
+        boolean respuestaAux = false;
+
+        for (PreguntaDTO pregunta : contestarPreguntaDTO.preguntas()) {
             Optional<Pregunta> preguntaActual = preguntaRepo.findById(pregunta.idPregunta());
             Respuesta respuesta = new Respuesta();
 
@@ -131,6 +134,17 @@ public class EstudianteImpl implements EstudianteServicio {
 
             respuestaRepo.save(respuesta);
         }
+
+        Optional<Examen> examenes = examenRepo.findById(contestarPreguntaDTO.idExamen());
+        if(examenes.isEmpty()){
+            throw new Exception("No existe un examen con el código "+contestarPreguntaDTO.idExamen());
+        }else respuestaAux = true;
+
+        Examen examen = examenes.get();
+        examen.setEstadoExamen(EstadoExamen.COMPLETADO);
+        examenRepo.save(examen);
+
+        return respuestaAux;
     }
 
     public String consolaString(String frase){

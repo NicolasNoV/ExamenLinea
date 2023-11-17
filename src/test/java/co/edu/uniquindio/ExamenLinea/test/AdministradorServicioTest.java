@@ -17,7 +17,7 @@ public class AdministradorServicioTest {
     @Autowired
     private AdministradorServicio administradorServicio;
 
-
+    @Test
     public void crearProfesorTest() throws Exception{
         String nombreProfesor = "Carlos";
 

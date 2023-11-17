@@ -18,6 +18,6 @@ public interface EstudianteServicio {
 
     List<PreguntaDTO> resolverExamen(int idExamen) throws Exception;
 
-    void contestarPregunta(List<PreguntaDTO> preguntas) throws Exception;
+    boolean contestarPregunta(ContestarPreguntaDTO contestarPreguntaDTO) throws Exception;
 
 }
