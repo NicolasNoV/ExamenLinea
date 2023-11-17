@@ -58,7 +58,6 @@ public class Examen implements Serializable {
     @JoinColumn(name = "diaEvaluacion_id")
     private DiaEvaluacion diaEvaluacion;
 
-    @NotNull
     @OneToOne
     @JoinColumn(name = "configuracion_id")
     private Configuracion configuracion;

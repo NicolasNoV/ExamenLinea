@@ -10,7 +10,6 @@ public record ConfiguracionDTO(
         LocalDateTime fecha,
         int numeroPreguntas,
         LocalDateTime tiempo,
-
         int idExamen
 
 ) {

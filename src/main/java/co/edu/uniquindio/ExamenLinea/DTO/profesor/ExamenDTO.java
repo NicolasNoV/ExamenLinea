@@ -13,8 +13,7 @@ public record ExamenDTO(
         int cantidadPreguntasBanco,
         int cantidadPreguntasEstudiante,
         LocalDateTime tiempoLimite,
-        int idDiaEvaluacion,
-        int idConfiguracion
+        int idDiaEvaluacion
 
 ) {
 }

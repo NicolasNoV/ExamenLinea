@@ -40,15 +40,11 @@ public class ProfesorImpl implements ProfesorServicio {
             Examen examen = new Examen();
 
             Optional<DiaEvaluacion> opcional = diaEvaluacionRepo.findById(examenDTO.idDiaEvaluacion());
-            Optional<Configuracion> opcional2 = configuracionRepo.findById(examenDTO.idConfiguracion());
 
             if( opcional.isEmpty() ){
                 throw new Exception("No existe un dia de evaluacion con el código "+examenDTO.idDiaEvaluacion());
-            }else{
-                if(opcional2.isEmpty()){
-                    throw new Exception("No existe una configuracion con el código "+examenDTO.idConfiguracion());
-                }
             }
+
 
             examen.setNombre(examenDTO.nombre());
             examen.setDescripcion(examenDTO.descripcion());
@@ -58,7 +54,6 @@ public class ProfesorImpl implements ProfesorServicio {
             examen.setCantidadPreguntasEstudiante(examenDTO.cantidadPreguntasEstudiante());
             examen.setTiempoLimite(examenDTO.tiempoLimite());
             examen.setDiaEvaluacion(opcional.get());
-            examen.setConfiguracion(opcional2.get());
             examen.setEstado(EstadoEntidad.ACTIVO);
 
             examenRepo.save(examen);
